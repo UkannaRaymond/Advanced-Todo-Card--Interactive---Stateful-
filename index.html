@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Todo Item Card</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="todo-item-card.css" />
+</head>
+<body>
+
+  <article data-testid="test-todo-card" id="todo-card" class="priority-high-card">
+
+    <div class="card-inner">
+
+      <!-- ── Header ── -->
+      <div class="card-header">
+        <div class="checkbox-wrap">
+          <label for="todo-toggle" class="sr-only">Mark task as complete</label>
+          <input
+            type="checkbox"
+            id="todo-toggle"
+            data-testid="test-todo-complete-toggle"
+            onchange="onCheckboxChange(this)"
+          />
+        </div>
+
+        <div class="title-row">
+          <h2 data-testid="test-todo-title" id="todo-title">
+            Redesign onboarding flow for mobile
+          </h2>
+          <div class="badge-row">
+            <span data-testid="test-todo-priority" id="todo-priority" class="priority-high">
+              <span data-testid="test-todo-priority-indicator" id="todo-priority-indicator" class="priority-dot-high"></span>
+              High
+            </span>
+            <span
+              data-testid="test-todo-status"
+              id="todo-status"
+              class="status-in-progress"
+              aria-label="Status: In progress"
+            >
+              In Progress
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Description (collapsible) ── -->
+      <p data-testid="test-todo-description" id="todo-description-preview" style="font-size:13px;color:#666;margin:0 0 2px;line-height:1.7;">
+        Audit the current 7-step onboarding, reduce drop-off points...
+      </p>
+
+      <button
+        data-testid="test-todo-expand-toggle"
+        id="expand-toggle"
+        aria-expanded="false"
+        aria-controls="todo-collapsible"
+      >
+        <i class="toggle-icon" aria-hidden="true">▾</i>
+        <span id="expand-label">Show more</span>
+      </button>
+
+      <div
+        data-testid="test-todo-collapsible-section"
+        id="todo-collapsible"
+        class="collapsed"
+        aria-hidden="true"
+      >
+        <p data-testid="test-todo-description" style="font-size:13px;color:#666;margin:0 0 14px;line-height:1.7;">
+          Audit the current 7-step onboarding, reduce drop-off points, and ship a
+          revised 3-step flow with contextual tooltips. Coordinate with the growth
+          and design teams before the sprint review. Ensure all A/B tests are properly
+          instrumented and results are tracked in the analytics dashboard.
+        </p>
+      </div>
+
+      <!-- ── Edit form ── -->
+      <div data-testid="test-todo-edit-form" id="todo-edit-form" role="form" aria-label="Edit task">
+        <div>
+          <label class="edit-field-label" for="edit-title-input">Title</label>
+          <input
+            data-testid="test-todo-edit-title-input"
+            id="edit-title-input"
+            type="text"
+            placeholder="Task title"
+          />
+        </div>
+        <div>
+          <label class="edit-field-label" for="edit-desc-input">Description</label>
+          <textarea
+            data-testid="test-todo-edit-description-input"
+            id="edit-desc-input"
+            placeholder="Task description"
+          ></textarea>
+        </div>
+        <div class="edit-row">
+          <div>
+            <label class="edit-field-label" for="edit-priority-select">Priority</label>
+            <select data-testid="test-todo-edit-priority-select" id="edit-priority-select">
+              <option value="high">High</option>
+              <option value="medium">Medium</option>
+              <option value="low">Low</option>
+            </select>
+          </div>
+          <div>
+            <label class="edit-field-label" for="edit-due-date-input">Due Date</label>
+            <input
+              data-testid="test-todo-edit-due-date-input"
+              id="edit-due-date-input"
+              type="datetime-local"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Meta row ── -->
+      <div class="meta-row">
+        <time
+          data-testid="test-todo-due-date"
+          id="todo-due-date"
+          datetime=""
+          aria-label="Due date"
+        >
+          <span aria-hidden="true">📅</span>
+          <span id="due-date-text"></span>
+        </time>
+        <div class="meta-divider" aria-hidden="true"></div>
+        <time
+          data-testid="test-todo-time-remaining"
+          id="todo-time-remaining"
+          datetime=""
+          aria-label="Time remaining"
+        >
+          <span aria-hidden="true">⏱</span>
+          <span id="time-remaining-text"></span>
+        </time>
+        <span data-testid="test-todo-overdue-indicator" id="overdue-indicator" aria-live="polite">
+          Overdue
+        </span>
+      </div>
+
+      <!-- ── Tags ── -->
+      <ul data-testid="test-todo-tags" role="list">
+        <li><span data-testid="test-todo-tag-design">Design</span></li>
+        <li><span data-testid="test-todo-tag-mobile">Mobile</span></li>
+        <li><span data-testid="test-todo-tag-growth">Growth</span></li>
+        <li><span data-testid="test-todo-tag-sprint">Sprint</span></li>
+      </ul>
+
+      <!-- ── Status control ── -->
+      <div class="status-control-wrap">
+        <span class="status-label">Status</span>
+        <div
+          data-testid="test-todo-status-control"
+          class="status-segmented"
+          role="group"
+          aria-label="Task status"
+        >
+          <button class="status-seg-btn" data-status="pending"     onclick="setStatus('pending')"     aria-pressed="false">Pending</button>
+          <button class="status-seg-btn active" data-status="in-progress" onclick="setStatus('in-progress')" aria-pressed="true">In Progress</button>
+          <button class="status-seg-btn" data-status="done"        onclick="setStatus('done')"        aria-pressed="false">Done</button>
+        </div>
+      </div>
+
+      <!-- ── Actions ── -->
+      <div class="card-actions">
+        <button data-testid="test-todo-cancel-button" id="cancel-btn" aria-label="Cancel edit" style="display:none;" onclick="cancelEdit()">
+          Cancel
+        </button>
+        <button data-testid="test-todo-save-button" id="save-btn" aria-label="Save changes" style="display:none;" onclick="saveEdit()">
+          Save
+        </button>
+        <button data-testid="test-todo-edit-button" id="edit-btn" aria-label="Edit task" onclick="openEdit()">
+          Edit
+        </button>
+        <button data-testid="test-todo-delete-button" aria-label="Delete task" onclick="deleteCard()">
+          Delete
+        </button>
+      </div>
+
+    </div><!-- /.card-inner -->
+  </article>
+
+  <script>
+    // ── State ─────────────────────────────────────────────────────────────────
+    let DUE = new Date(Date.now() + (3 * 24 + 5) * 60 * 60 * 1000);
+    let currentStatus = 'in-progress';
+    let currentPriority = 'high';
+    let isEditing = false;
+    let timerInterval = null;
+
+    // Snapshot for cancel
+    let snapshot = {};
+
+    // ── Helpers ───────────────────────────────────────────────────────────────
+    function formatDate(d) {
+      return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    }
+
+    function formatRelative(target) {
+      const diff = target - Date.now();
+      const abs  = Math.abs(diff);
+      const mins = Math.floor(abs / 60000);
+      const hrs  = Math.floor(abs / 3600000);
+      const days = Math.floor(abs / 86400000);
+      let str, cls = '';
+
+      if (diff < 0) {
+        cls = 'overdue';
+        if (mins < 60)     str = `Overdue by ${mins} min${mins !== 1 ? 's' : ''}`;
+        else if (hrs < 24) str = `Overdue by ${hrs} hr${hrs !== 1 ? 's' : ''}`;
+        else               str = `Overdue by ${days} day${days !== 1 ? 's' : ''}`;
+      } else {
+        if (hrs < 2)        { cls = 'soon'; str = `Due in ${mins} min${mins !== 1 ? 's' : ''}`; }
+        else if (hrs < 24)  { cls = 'soon'; str = `Due in ${hrs} hr${hrs !== 1 ? 's' : ''}`; }
+        else if (days <= 3) { cls = 'soon'; str = `Due in ${days} day${days !== 1 ? 's' : ''}`; }
+        else                str = `Due in ${days} day${days !== 1 ? 's' : ''}`;
+      }
+      return { str, cls };
+    }
+
+    // ── Time update ───────────────────────────────────────────────────────────
+    function updateTimes() {
+      const dueEl     = document.getElementById('todo-due-date');
+      const remEl     = document.getElementById('todo-time-remaining');
+      const remText   = document.getElementById('time-remaining-text');
+      const overdueEl = document.getElementById('overdue-indicator');
+      const card      = document.getElementById('todo-card');
+
+      dueEl.setAttribute('datetime', DUE.toISOString());
+      document.getElementById('due-date-text').textContent = 'Due ' + formatDate(DUE);
+
+      if (currentStatus === 'done') {
+        remEl.className = 'done-time';
+        remText.textContent = 'Completed';
+        remEl.setAttribute('aria-label', 'Task completed');
+        overdueEl.classList.remove('visible');
+        card.classList.remove('overdue-card');
+        return;
+      }
+
+      const { str, cls } = formatRelative(DUE);
+      remEl.setAttribute('datetime', DUE.toISOString());
+      remText.textContent = str;
+      remEl.className = cls;
+      remEl.setAttribute('aria-label', str);
+
+      if (cls === 'overdue') {
+        overdueEl.classList.add('visible');
+        card.classList.add('overdue-card');
+      } else {
+        overdueEl.classList.remove('visible');
+        card.classList.remove('overdue-card');
+      }
+    }
+
+    function startTimer() {
+      if (timerInterval) clearInterval(timerInterval);
+      timerInterval = setInterval(updateTimes, 45000);
+    }
+
+    // ── Expand / Collapse ─────────────────────────────────────────────────────
+    const expandBtn      = document.getElementById('expand-toggle');
+    const collapsible    = document.getElementById('todo-collapsible');
+    const expandLabel    = document.getElementById('expand-label');
+    let expanded = false;
+
+    expandBtn.addEventListener('click', function () {
+      expanded = !expanded;
+      collapsible.classList.toggle('collapsed', !expanded);
+      collapsible.setAttribute('aria-hidden', String(!expanded));
+      expandBtn.setAttribute('aria-expanded', String(expanded));
+      expandBtn.classList.toggle('expanded', expanded);
+      expandLabel.textContent = expanded ? 'Show less' : 'Show more';
+    });
+
+    expandBtn.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); expandBtn.click(); }
+    });
+
+    // ── Status ────────────────────────────────────────────────────────────────
+    function setStatus(status, fromCheckbox = false) {
+      currentStatus = status;
+
+      // Sync checkbox
+      const cb = document.getElementById('todo-toggle');
+      const card = document.getElementById('todo-card');
+      const title = document.getElementById('todo-title');
+      const statusBadge = document.getElementById('todo-status');
+
+      if (status === 'done') {
+        cb.checked = true;
+        card.classList.add('completed');
+        title.classList.add('done');
+        statusBadge.textContent = 'Done';
+        statusBadge.className = 'status-done';
+        statusBadge.setAttribute('aria-label', 'Status: Done');
+      } else if (status === 'in-progress') {
+        cb.checked = false;
+        card.classList.remove('completed');
+        title.classList.remove('done');
+        statusBadge.textContent = 'In Progress';
+        statusBadge.className = 'status-in-progress';
+        statusBadge.setAttribute('aria-label', 'Status: In Progress');
+      } else {
+        cb.checked = false;
+        card.classList.remove('completed');
+        title.classList.remove('done');
+        statusBadge.textContent = 'Pending';
+        statusBadge.className = 'status-pending';
+        statusBadge.setAttribute('aria-label', 'Status: Pending');
+      }
+
+      // Sync segmented control
+      document.querySelectorAll('.status-seg-btn').forEach(btn => {
+        const active = btn.dataset.status === status;
+        btn.classList.toggle('active', active);
+        btn.setAttribute('aria-pressed', String(active));
+      });
+
+      updateTimes();
+    }
+
+    function onCheckboxChange(cb) {
+      if (cb.checked) {
+        setStatus('done', true);
+      } else {
+        setStatus('pending', true);
+      }
+    }
+
+    // ── Priority ──────────────────────────────────────────────────────────────
+    function setPriority(priority) {
+      currentPriority = priority;
+      const card         = document.getElementById('todo-card');
+      const priorityBadge = document.getElementById('todo-priority');
+      const priorityDot  = document.getElementById('todo-priority-indicator');
+
+      // Card border accent
+      card.classList.remove('priority-high-card', 'priority-medium-card', 'priority-low-card');
+      card.classList.add(`priority-${priority}-card`);
+
+      // Badge
+      const labels = { high: 'High', medium: 'Medium', low: 'Low' };
+      priorityBadge.className = `priority-${priority}`;
+      priorityDot.className = `priority-dot-${priority}`;
+
+      // Rebuild inner (dot + text)
+      priorityBadge.innerHTML = '';
+      priorityBadge.appendChild(priorityDot);
+      priorityBadge.appendChild(document.createTextNode(' ' + labels[priority]));
+    }
+
+    // ── Edit ──────────────────────────────────────────────────────────────────
+    function openEdit() {
+      isEditing = true;
+
+      // Take snapshot
+      snapshot = {
+        title:       document.getElementById('todo-title').textContent.trim(),
+        description: document.getElementById('edit-desc-input').value ||
+                     'Audit the current 7-step onboarding, reduce drop-off points, and ship a revised 3-step flow with contextual tooltips. Coordinate with the growth and design teams before the sprint review. Ensure all A/B tests are properly instrumented and results are tracked in the analytics dashboard.',
+        priority:    currentPriority,
+        due:         DUE,
+      };
+
+      // Populate form
+      document.getElementById('edit-title-input').value = snapshot.title;
+
+      // Full description for edit
+      document.getElementById('edit-desc-input').value = snapshot.description;
+
+      document.getElementById('edit-priority-select').value = currentPriority;
+
+      // Format for datetime-local
+      const local = new Date(DUE.getTime() - DUE.getTimezoneOffset() * 60000)
+        .toISOString().slice(0, 16);
+      document.getElementById('edit-due-date-input').value = local;
+
+      // Show form, hide edit btn, show save/cancel
+      document.getElementById('todo-edit-form').classList.add('visible');
+      document.getElementById('edit-btn').style.display = 'none';
+      document.getElementById('save-btn').style.display = '';
+      document.getElementById('cancel-btn').style.display = '';
+
+      // Focus first input
+      setTimeout(() => document.getElementById('edit-title-input').focus(), 50);
+    }
+
+    function saveEdit() {
+      const newTitle    = document.getElementById('edit-title-input').value.trim() || 'Untitled task';
+      const newDesc     = document.getElementById('edit-desc-input').value.trim();
+      const newPriority = document.getElementById('edit-priority-select').value;
+      const newDueRaw   = document.getElementById('edit-due-date-input').value;
+
+      // Update title
+      const titleEl = document.getElementById('todo-title');
+      titleEl.textContent = newTitle;
+
+      // Update description preview
+      const preview = document.getElementById('todo-description-preview');
+      const words = newDesc.split(' ');
+      preview.textContent = words.length > 10
+        ? words.slice(0, 10).join(' ') + '…'
+        : newDesc;
+
+      // Update collapsible full description
+      const fullDescEl = collapsible.querySelector('p');
+      if (fullDescEl) fullDescEl.textContent = newDesc;
+
+      // Update priority
+      setPriority(newPriority);
+
+      // Update due date
+      if (newDueRaw) {
+        DUE = new Date(newDueRaw);
+      }
+
+      closeEditForm();
+      updateTimes();
+    }
+
+    function cancelEdit() {
+      closeEditForm();
+    }
+
+    function closeEditForm() {
+      isEditing = false;
+      document.getElementById('todo-edit-form').classList.remove('visible');
+      document.getElementById('edit-btn').style.display = '';
+      document.getElementById('save-btn').style.display = 'none';
+      document.getElementById('cancel-btn').style.display = 'none';
+
+      // Return focus to edit button
+      document.getElementById('edit-btn').focus();
+    }
+
+    // Keyboard: Escape cancels edit
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && isEditing) cancelEdit();
+    });
+
+    // ── Delete ────────────────────────────────────────────────────────────────
+    function deleteCard() {
+      if (!confirm('Delete this task?')) return;
+      const card = document.getElementById('todo-card');
+      card.style.transition = 'opacity 0.25s, transform 0.25s';
+      card.style.opacity = '0';
+      card.style.transform = 'scale(0.97)';
+      setTimeout(() => card.remove(), 260);
+    }
+
+    // ── Init ──────────────────────────────────────────────────────────────────
+    updateTimes();
+    startTimer();
+  </script>
+
+</body>
+</html>
