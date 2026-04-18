@@ -9,7 +9,7 @@ A self-contained, interactive task card component built with vanilla HTML, CSS, 
 ### Option 1 — Clone the repo
 
 ```bash
-git clone https://github.com/UkannaRaymond/Build--Testble-Todo-Item-Card.git
+git clone https://github.com/UkannaRaymond/Advanced-Todo-Card--Interactive---Stateful-.git
 cd todo-item-card
 ```
 
@@ -68,14 +68,14 @@ No npm install, no bundler, no framework.
 
 ## Features
 
-| Interaction | Behaviour |
-|---|---|
-| **Checkbox** | Marks card as complete — fades the card, strikes through the title, flips the status badge and segmented control to "Done" |
-| **Show more / Show less** | Expands or collapses the full task description with a CSS transition |
-| **Edit** | Opens an inline form to update title, description, priority, and due date; Save writes changes, Cancel restores the snapshot |
-| **Delete** | Confirms via native dialog, then fades and scales the card out before removing it from the DOM |
-| **Due date & timer** | Calculated relative to page-load time (`now + ~3 days 5 hours`); refreshes every 45 seconds; turns amber when due soon, red when overdue |
-| **Dark mode** | Automatic via `prefers-color-scheme: dark` — no toggle needed |
+| Interaction               | Behaviour                                                                                                                                |
+| ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| **Checkbox**              | Marks card as complete — fades the card, strikes through the title, flips the status badge and segmented control to "Done"               |
+| **Show more / Show less** | Expands or collapses the full task description with a CSS transition                                                                     |
+| **Edit**                  | Opens an inline form to update title, description, priority, and due date; Save writes changes, Cancel restores the snapshot             |
+| **Delete**                | Confirms via native dialog, then fades and scales the card out before removing it from the DOM                                           |
+| **Due date & timer**      | Calculated relative to page-load time (`now + ~3 days 5 hours`); refreshes every 45 seconds; turns amber when due soon, red when overdue |
+| **Dark mode**             | Automatic via `prefers-color-scheme: dark` — no toggle needed                                                                            |
 
 ---
 
