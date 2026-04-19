@@ -4,6 +4,12 @@ A self-contained, interactive task card component built with vanilla HTML, CSS, 
 
 ---
 
+### Live URL
+
+```
+https://advanced-todo-card-interactive-and.vercel.app
+```
+
 ## How to Run Locally
 
 ### Option 1 — Clone the repo
